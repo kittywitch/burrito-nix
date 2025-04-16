@@ -24,13 +24,15 @@ stdenv.mkDerivation rec {
     stdenv.cc
   ];
 
-  installPhase = let
-    localName = builtins.replaceStrings ["-"] ["_"] pname;
-  in ''
-    mkdir -p $out/{lib,bin}
-    mv *.dll $out/lib
-    mv ${localName}.exe.exe $out/bin/${localName}.exe
-  '';
+  installPhase =
+    let
+      localName = builtins.replaceStrings [ "-" ] [ "_" ] pname;
+    in
+    ''
+      mkdir -p $out/{lib,bin}
+      mv *.dll $out/lib
+      mv ${localName}.exe.exe $out/bin/${localName}.exe
+    '';
 
   meta = with lib; {
     homepage = "https://github.com/AsherGlick/Burrito";

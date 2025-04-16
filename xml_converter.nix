@@ -27,15 +27,17 @@ stdenv.mkDerivation rec {
     protobufc
   ];
 
-  cmakeFlags = let
-    inherit (lib) cmakeFeature getInclude getLib;
-    libExt = stdenv.hostPlatform.extensions.sharedLibrary;
-  in [
-    (cmakeFeature "Protobuf_LIBRARIES" "${getLib protobuf}/lib/libprotobuf${libExt}")
-    (cmakeFeature "GTEST_MAIN_LIBRARY" "${getLib gtest}/lib/libgtest_main${libExt}")
-    (cmakeFeature "GTEST_LIBRARY" "${getLib gtest}/lib/libgtest${libExt}")
-    (cmakeFeature "GTEST_INCLUDE_DIR" "${getInclude gtest}/include")
-  ];
+  cmakeFlags =
+    let
+      inherit (lib) cmakeFeature getInclude getLib;
+      libExt = stdenv.hostPlatform.extensions.sharedLibrary;
+    in
+    [
+      (cmakeFeature "Protobuf_LIBRARIES" "${getLib protobuf}/lib/libprotobuf${libExt}")
+      (cmakeFeature "GTEST_MAIN_LIBRARY" "${getLib gtest}/lib/libgtest_main${libExt}")
+      (cmakeFeature "GTEST_LIBRARY" "${getLib gtest}/lib/libgtest${libExt}")
+      (cmakeFeature "GTEST_INCLUDE_DIR" "${getInclude gtest}/include")
+    ];
 
   installPhase = ''
     mkdir -p $out/bin

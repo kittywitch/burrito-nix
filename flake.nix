@@ -54,7 +54,8 @@
             meta.mainProgram = "burrito.x86-64";
           };
         };
-      in {
+      in
+      {
         inherit packages;
       });
 }
