@@ -41,7 +41,6 @@ stdenv.mkDerivation {
     alsa-lib
     gcc-unwrapped.lib
     git
-    udev
     libGLU
     libX11
     libXcursor
@@ -56,6 +55,10 @@ stdenv.mkDerivation {
     zlib
     taco_parser
     burrito-fg
+  ];
+
+  propagatedBuildInputs = [
+    udev
   ];
 
   buildPhase = let
