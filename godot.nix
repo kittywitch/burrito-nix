@@ -25,6 +25,7 @@
 , version
 , taco_parser
 , burrito-fg
+, autoPatchelfHook
 }:
 
 stdenv.mkDerivation {
@@ -34,6 +35,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     godot3-mono-headless
     unzip
+    autoPatchelfHook
   ];
 
   buildInputs = [
