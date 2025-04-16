@@ -17,11 +17,14 @@
 , libXinerama
 , libXrandr
 , libXrender
+, udev
 , libglvnd
 , libpulseaudio
 , zlib
 , src
 , version
+, taco_parser
+, burrito-fg
 }:
 
 stdenv.mkDerivation {
@@ -38,6 +41,7 @@ stdenv.mkDerivation {
     alsa-lib
     gcc-unwrapped.lib
     git
+    udev
     libGLU
     libX11
     libXcursor
@@ -50,20 +54,24 @@ stdenv.mkDerivation {
     libglvnd
     libpulseaudio
     zlib
+    taco_parser
+    burrito-fg
   ];
 
-  buildPhase = ''
+  buildPhase = let
+      libExt = stdenv.hostPlatform.extensions.sharedLibrary;
+    in ''
     runHook preBuild
 
     export HOME=$TMPDIR
     mkdir -p $HOME/.local/share/godot
     ln -s ${godot3-mono-export-templates}/share/godot/templates $HOME/.local/share/godot
+    mkdir -p burrito-fg/target/release/
+    cp -r ${burrito-fg}/lib/libburrito_fg${libExt} burrito-fg/target/release/
+    mkdir -p taco_parser/target/release/
+    cp -r ${taco_parser}/lib/libgw2_taco_parser${libExt} taco_parser/target/release/
 
     # https://github.com/AsherGlick/Burrito/blob/master/.github/workflows/main.yml#L214
-    mkdir -p burrito-fg/target/release/
-    touch burrito-fg/target/release/libburrito_fg.so
-    mkdir -p taco_parser/target/release/
-    touch taco_parser/target/release/libgw2_taco_parser.so
 
     mkdir -p $out/bin/
     godot3-mono-headless --export "Linux/X11" $out/bin/burrito.x86-64
@@ -81,7 +89,7 @@ stdenv.mkDerivation {
     license = licenses.gpl2;
     platforms   = platforms.linux;
     maintainers = [ ];
-    mainProgram = "burrito.x86-64";
+    mainProgram = "burrito.x86_64";
   };
 }
 

@@ -37,16 +37,21 @@
         };
 
         packages = rec {
-          burrito = pkgs.callPackage ./godot.nix arguments;
           xml_converter = pkgs.callPackage ./xml_converter.nix arguments;
+          taco_parser = pkgs.callPackage ./taco_parser.nix arguments;
+          burrito-fg = pkgs.callPackage ./burrito-fg.nix arguments;
+          burrito_godot = pkgs.callPackage ./godot.nix (arguments // { inherit taco_parser burrito-fg; });
           burrito_link = pkgsCross.callPackage ./link.nix arguments;
-          zip = pkgs.symlinkJoin {
+          burrito = pkgs.symlinkJoin {
             name = "burrito";
             paths = [
-              burrito
+              burrito-fg
+              taco_parser
+              burrito_godot
               xml_converter
               burrito_link
             ];
+            meta.mainProgram = "burrito.x86-64";
           };
         };
       in {
