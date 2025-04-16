@@ -57,7 +57,7 @@ stdenv.mkDerivation {
     burrito-fg
   ];
 
-  propagatedBuildInputs = [
+  runtimeDependencies = [
     udev
   ];
 
