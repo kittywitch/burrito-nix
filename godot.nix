@@ -17,7 +17,7 @@
 , libXinerama
 , libXrandr
 , libXrender
-, systemd
+, udev
 , libglvnd
 , libpulseaudio
 , zlib
@@ -58,7 +58,7 @@ stdenv.mkDerivation {
   ];
 
   propagatedBuildInputs = [
-    systemd
+    udev
   ];
 
   buildPhase =
